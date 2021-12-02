@@ -1,9 +1,18 @@
 # pwn
-1. 签到题
+1. 真nc就给flag
 
     nc pwn.aw31-hack.top 10002
 
 直接nc一下进取，cat/flag.txt就完事了
+2. nc就给flag
+![](./i/10.png)
+
+比较狗，提示stdout is close，那我们输入一个参数
+
+    exec 1>&0
+
+就可以继续获取我们的flag了
+
 # web
 1. easy_md5
 ![](./i/1.png)

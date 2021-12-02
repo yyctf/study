@@ -1,3 +1,6 @@
+- [web](#web)
+- [misc](#misc)
+- [crypto](#crypto)
 # web
 1. fuzz_md5
 
@@ -355,3 +358,63 @@ name过滤后吃掉即可成为
 `action=1&pass=flagflagflagphpphpphp&email=";s:5:"email";s:1:"b";s:4:"name";O:9:"me7eorite":2:{s:4:"safe";s:1:"a";s:5:"class";O:9:"me7eorite":2:{s:4:"safe";s:5:"/flflagag";s:5:"class";N;}}`
 
 ![](./i/9.png)
+
+# misc
+1. 简单的日志审计
+
+打开日志，发现两处可疑base64代码，解码发现flag
+![](./i/11.png)
+2. 电信诈骗
+
+CTFer,你好，我是威震天！其实我在芝加哥大战中没死，现在你只需要打2000RMB到我的银行账户，我就可以用这2000RMB发红包骗取人们的信任，然后穿过股市网络找到震荡波在纽约给我找的新身体，然后我就可以复活了。今天如果你帮了我，复活后我可以入侵股市网络把钱全部给你们。等过了周末，我就让红蜘蛛变成飞机去接你，然后我把红蜘蛛杀了，让你当霸天虎副指挥官，然后我们从南极洲呈扩散式发出霸天虎军队，万军齐发，占领地球，怎么样？为了防止这条消息被擎天柱拦截。我将银行卡号进行了加密，希望你能成功解密。我的银行账户是qi]m^roVibdVbXUU`h
+
+变异凯撒，上脚本
+```python
+c = "qi]m^roVibdVbXUU`h"
+
+for move in range(0,50):
+    flag = ""
+    for i in c:
+        flag += chr(ord(i)- move)
+        move = move -1
+
+    print(flag)
+```
+![](./i/12.png)
+3. 引大流咯，happy
+
+下载后是一个图片,查看大小1067x1972,十六进制1067是42b,搜索042b，修改为1972的十六进制07b4,发现flag
+
+![](./i/13.png)
+
+4. 倒立洗头
+
+题目给了提示倒立洗头，然后查看下载下来的txt，查看头和尾，发现可能是一个jpg倒过来的十六进制代码，上脚本，先反过来
+```python
+s2 = ''
+with open("key.txt",'r') as f:
+    data = f.read()
+    data = data[::-1]
+    # print(data)
+    for i in range(0,len(data),2):
+        s1 = data[i:i+2]
+        s2 += s1[::-1]
+        # print(s2)
+    with open("key1.txt",'w+') as f1:
+        f1.write('ff'+s2)
+```
+由于jpg的文件头和文件尾格式为`ffd8**************ffd9`，反转之后的文件头为`d8********ffd9`,所以我们需要手动给文件头添加文件头ff,然后将十六进制代码复制，在winhex里面粘贴为hex，然后保存为1.jpg,然后在010里面打开，发现base64编码
+
+![](./i/14.png)
+
+解码后发现
+
+![](./i/15.png)
+
+去掉佛曰； 还有空格还有回车解码
+
+![](./i/16.png)
+
+# crypto
+1. rsa
+![](./i/17.png)
