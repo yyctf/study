@@ -1,8 +1,20 @@
-- [web](#web)
-- [misc](#misc)
-- [crypto](#crypto)
+1. [web](#web)
+    1. [fuzz_md5](#fuzz_md5)
+    2. [can_you_hacked_me](#can_you_hacked_me)
+    3. [phpmysql](#phpmysql)
+    4. [babywrite](#babywrite)
+    5. [easy_serialize](#easy_serialize)
+2. [misc](#misc)
+    1. [简单的日志审计](#简单的日志审计)
+    2. [电信诈骗](#电信诈骗)
+    3. [引大流咯，happy](#引大流咯，happy)
+    4. [倒立洗头](#倒立洗头)
+3. [crypto](#crypto)
+    1. [rsa](#rsa)
+
+![](./i/18.png)
 # web
-1. fuzz_md5
+## fuzz_md5
 
 进去一看，代码审计
 ```php
@@ -51,7 +63,7 @@ for($a=1;$a<=100000000;$a++){
 
 ![](./i/1.png)
 
-2. can_you_hacked_me
+## can_you_hacked_me
 
 查看源码提示www.zip,下载后发现有账号密码还有主页文件,代码审计
 ```php
@@ -116,7 +128,7 @@ INSERT INTO `users` values(1,'test', 'test'),(2,'admin','AdminSecret');
 
 ![](./i/2.png)
 
-3. phpmysql
+## phpmysql
 
 打开一看又是代码审计
 ```php
@@ -157,7 +169,7 @@ host=127.0.0.1&user=Exception&pwd=)?><?=`cat /fllllaaaaag`?>&port=123
 ```
 ![](./i/3.png)
 
-4. babywrite
+## babywrite
 
 代码审计
 ```php
@@ -199,7 +211,7 @@ if (isset($_GET['filename']) && isset($_GET['content'])) {
 
 成功访问并且获取flag
 
-5. easy_serialize
+## easy_serialize
 
 代码审计，是一个反序列化字符逃逸，减少，参照`[安洵杯 2019]easy_serialize_php`,并且还有php弱比较MD5
 
@@ -360,11 +372,11 @@ name过滤后吃掉即可成为
 ![](./i/9.png)
 
 # misc
-1. 简单的日志审计
+## 简单的日志审计
 
 打开日志，发现两处可疑base64代码，解码发现flag
 ![](./i/11.png)
-2. 电信诈骗
+## 电信诈骗
 
 CTFer,你好，我是威震天！其实我在芝加哥大战中没死，现在你只需要打2000RMB到我的银行账户，我就可以用这2000RMB发红包骗取人们的信任，然后穿过股市网络找到震荡波在纽约给我找的新身体，然后我就可以复活了。今天如果你帮了我，复活后我可以入侵股市网络把钱全部给你们。等过了周末，我就让红蜘蛛变成飞机去接你，然后我把红蜘蛛杀了，让你当霸天虎副指挥官，然后我们从南极洲呈扩散式发出霸天虎军队，万军齐发，占领地球，怎么样？为了防止这条消息被擎天柱拦截。我将银行卡号进行了加密，希望你能成功解密。我的银行账户是qi]m^roVibdVbXUU`h
 
@@ -381,13 +393,14 @@ for move in range(0,50):
     print(flag)
 ```
 ![](./i/12.png)
-3. 引大流咯，happy
+
+## 引大流咯，happy
 
 下载后是一个图片,查看大小1067x1972,十六进制1067是42b,搜索042b，修改为1972的十六进制07b4,发现flag
 
 ![](./i/13.png)
 
-4. 倒立洗头
+## 倒立洗头
 
 题目给了提示倒立洗头，然后查看下载下来的txt，查看头和尾，发现可能是一个jpg倒过来的十六进制代码，上脚本，先反过来
 ```python
@@ -416,5 +429,5 @@ with open("key.txt",'r') as f:
 ![](./i/16.png)
 
 # crypto
-1. rsa
+## rsa
 ![](./i/17.png)
