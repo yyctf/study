@@ -1,3 +1,4 @@
+1. [pwn](#pwn)
 # pwn
 1. 真nc就给flag
 
