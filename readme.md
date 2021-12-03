@@ -5,6 +5,7 @@
 2. [wp部分](#wp)
     + [2021unctf公开赛](./wp/2021unctf公开赛/README.md)
     + [2021南通大学秋季招新赛](./wp/2021南通大学秋季招新赛/README.md)
+3. [嘤嘤嘤](./yyy/省赛内容.md)
 > # 笔记
 >> # web
 1. [sql注入](./web/sql注入.md)
