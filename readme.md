@@ -3,6 +3,8 @@
     + [misc](#misc)
     + [crypto](#crypto)
 2. [wp部分](#wp)
+    + [2021unctf公开赛](./wp/2021unctf公开赛/README.md)
+    + [2021南通大学秋季招新赛](./wp/2021南通大学秋季招新赛/README.md)
 > # 笔记
 >> # web
 1. [sql注入](./web/sql注入.md)
@@ -19,7 +21,3 @@
 >> # misc
 
 >> # crypto
-
-> # wp
-+ [2021unctf公开赛](./wp/2021unctf公开赛/README.md)
-+ [2021南通大学秋季招新赛](./wp/2021南通大学秋季招新赛/README.md)
