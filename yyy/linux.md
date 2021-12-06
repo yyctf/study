@@ -1,0 +1,18 @@
+# windows
+    for /r./ %i in (*.log)|do find "flag" %i
+# linux
+设置程序自启动
+
+    update-rc.d ssh enable  //关闭自启动update-rc.d ssh disable
+
+启动程序
+
+    systemctl start ssh //关闭程序systemctl stop ssh
+
+查找php后缀里面含有eval的
+
+    find / -name "*.php" | xargs grep eval
+
+查找进程是nc的
+
+    netstat -atunlp | grep nc
