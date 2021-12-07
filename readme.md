@@ -17,8 +17,8 @@
     2. [zip](./misc/zip.md)
     3. [图片隐写](./misc/图片隐写.md)
 + ## [crypto]()
-+ ## [pwn看啥呢不会]()
-+ ## [reverse看啥呢不会]()
++ ## [pwn(看啥呢不会)]()
++ ## [reverse(看啥呢不会)]()
 # wp
 1. [2021unctf公开赛](./wp/2021unctf公开赛/README.md)
 2. [2021南通大学秋季招新赛](./wp/2021南通大学秋季招新赛/README.md)
