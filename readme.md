@@ -18,7 +18,7 @@
     3. [图片隐写](./misc/图片隐写.md)
 + ## [crypto](./crypto/crypto.md)
     1. [rsa](./crypto/RSA.html)
-+ ## [pwn(看啥呢不会)]()
++ ## pwn(看啥呢不会)
     1. [pwn环境搭建](./pwn/pwn基础/PWN环境搭建.md)
     2. [pwn例题讲解(入门)](./pwn/pwn基础/PWN例题讲解.md)
 + ## [reverse(看啥呢不会)]()

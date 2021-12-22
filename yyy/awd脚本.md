@@ -1,4 +1,20 @@
-# 注意，所有脚本都是基于python2的，一定要学习Python2脚本
+# waf
+```php
+<?php
+foreach($_REQUEST as $f){
+    if(preg_match('/\S/m',$f))
+    {
+        die('cnm');
+    }
+}>
+```
+
+写在/tmp下，然后执行命令
+
+    find /var/www/html -name "*.php"|xargs sed -i "s/<?php/<?php\nrequire_once('\/tmp\/waf.php');/g"
+
+直接上awf
+## 注意，以下所有脚本都是基于python2的，一定要学习Python2脚本
 # 一句话木马脚本(看好是post还是get,如果是get自己修改下面命令注入的脚本)
 ```python
 import requests

