@@ -12,4 +12,8 @@ if($a!=$b&&md5($a)==md5($b)){
 2. md5前和md5后相等
 
 0e215962017
-+ [666](../常用工具.md)
+3. md5(md5())之后等于0e
+
+    CbDLytmyGm2xQyaLNhWn
+    770hQgrBOjrcqftrlaZk
+    7r4lGXCH2Ksu2JNT3BYM
