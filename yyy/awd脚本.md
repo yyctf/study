@@ -20,10 +20,6 @@ foreach($_REQUEST as $f){
 为什么要用require而不用include呢，首先require一定会执行并且遇到错误无法执行，include遇到错误直接跳过，其次require无论位置在哪都会首先执行，include则是遇到了才会执行，并且require是无条件包含，所以一定要用require防止包含失效被打穿
 
 # 一句话木马脚本
-`注意，以下所有脚本都是基于python2的，一定要学习Python2脚本`
-
-`为什么要学习Python2呢，因为比赛环境kali是python2的`
-
 `(看好是post还是get,如果是get自己修改下面命令注入的脚本)`
 ```python
 import requests
