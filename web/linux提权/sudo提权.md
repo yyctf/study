@@ -7,6 +7,9 @@
 
 ## git
     sudo git -p --help
+    或者
+    sudo git gelp config
+    最后!/bin/bash
 
 # 1. 信息搜集
 1. 首先找到登录用户

