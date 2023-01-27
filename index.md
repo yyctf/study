@@ -1,0 +1,509 @@
+1. [工具与靶场](#工具与靶场)
+   1. [工具](#工具)
+   2. [靶场](#靶场)
+   3. [工具使用方法](#工具使用方法)
+      1. [github](#github)
+      2. [hashcat](#hashcat)
+      3. [sqlmap](#sqlmap)
+      4. [xray](#xray)
+      5. [nmap](#nmap)
+2. [php安全](#php安全)
+   1. [ctf](#ctf)
+      1. [web](#web)
+      2. [misc](#misc)
+      3. [crypto](#crypto)
+      4. [re](#re)
+      5. [pwn](#pwn)
+   2. [靶场](#靶场-1)
+   3. [wp](#wp)
+3. [java安全](#java安全)
+
+# 工具与靶场
+
+## 工具
+
+常用工具与靶场与下载链接
+
+`工欲其善必先利器`
+
+| 工具                   | 链接                                                                                            |
+| ---------------------- | ----------------------------------------------------------------------------------------------- |
+| dirsearch(目录扫描)    | https://github.com/maurosoria/dirsearch                                                         |
+| xray(漏洞扫描)         | https://download.xray.cool/xray                                                                 |
+| vulmap(漏洞扫描)       | https://github.com/zhzyker/vulmap                                                               |
+| sqlmap(SQL注入)        | https://github.com/sqlmapproject/sqlmap                                                         |
+| tplmap(SSTI注入)       | https://github.com/epinna/tplmap                                                                |
+| CaptfEncoder(进制转换) | https://github.com/guyoung/CaptfEncoder/releases                                                |
+| BerylEnigma(进制转换)  | https://github.com/ffffffff0x/BerylEnigma/releases                                              |
+| 大佬的笔记             | https://github.com/ffffffff0x/1earn                                                             |
+| f8x(linux环境搭建)     | wget -O f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x |
+| 小皮                   | wget -O install.sh https://download.xp.cn/install.sh && sudo bash install.sh                    |
+| 宝塔                   | wget -O install.sh http://download.bt.cn/install/install-ubuntu_6.0.sh && sudo bash install.sh  |
+| 宝塔卸载               | wget http://download.bt.cn/install/bt-uninstall.sh                                              |
+| awd                    | https://github.com/fyfztms/awd_ctf_platform                                                     |
+| 蚁剑加载器             | https://github.com/AntSwordProject/AntSword-Loader                                              |
+| 蚁剑                   | https://github.com/AntSwordProject/antSword                                                     |
+
+
+## 靶场
+
+
+| 工具                  | 链接                                             |
+| --------------------- | ------------------------------------------------ |
+| dvwa(php7)            | https://github.com/digininja/DVWA                |
+| pikachu               | https://github.com/zhuifengshaonianhanlu/pikachu |
+| uploadlabs(php5.2.17) | https://github.com/clriseaa/docker-uploadlabs    |
+| sqlilabs(php5)        | https://github.com/himadriganguly/sqlilabs       |
+| vulhub(中间件漏洞)    | https://github.com/vulhub/vulhub                 |
+
+## 工具使用方法
+
+### github
+
+
+  配置用户名：
+    git config --global user.name “yyctf”
+
+配置用户邮箱：
+    git config --global user.email “邮箱”
+
+生成key,然后查找id_rsa.pub,复制内容
+    ssh-keygen -t rsa -C “邮箱”
+
+复制好的内容去github粘贴
+
+接下来查看链接是否成功
+
+    ssh -T git@github.com
+
+如果不可以，那么进行操作
+
+    cd ~/.ssh
+    vim config
+
+```vim
+Host github.com
+User YourEmail@163.com
+Hostname ssh.github.com
+PreferredAuthentications publickey
+IdentityFile ~/.ssh/id_rsa
+Port 443
+```
+
+然后保存，再次查看链接是否成功，然后yes就可以了
+
+进入想要作为仓库的目录，然后
+
+    git init
+    git add .
+    git commit -m "提交文件"  //双引号内是注释
+
+关联github仓库
+
+    git remote add origin github仓库ssh地址
+
+上传本地代码
+
+    git push -u origin master
+
+修改文件后更新
+
+    git add .
+    git commit -m "提交1.txt"
+    git push -u origin master
+
+### hashcat
+
+hashcat 加密内容 -a 0 rockyou.txt -t 100  --force 字典破解
+hashcat 加密内容 -a 3 ?a?a?a?a?a -t 100 --force 掩码破解
+-m 0 破解类型为md5
+hashcat集成的字符集
+
+?l              代表小写字母
+
+?u              代表大写字母
+
+?d              代表数字
+
+?s              代表特殊字符
+
+?a              代表大小写字母、数字以及特殊字符  
+
+?b              0x00-0xff
+
+hashcat常用命令
+
+-m                             指定哈希类型
+
+-a                             指定破解模式
+
+-V                             查看版本信息
+
+-o                             将输出结果储存到指定文件
+
+--force                        忽略警告
+
+--show                         仅显示破解的hash密码和对应的明文
+
+--remove                       从源文件中删除破解成功的hash
+
+--username                     忽略hash表中的用户名
+
+-b                             测试计算机破解速度和相关硬件信息
+
+-O                             限制密码长度
+
+-T                             设置线程数
+
+-r                             使用规则文件
+
+-1                             自定义字符集  -1 0123asd     ?1={0123asd}
+
+-2                             自定义字符集  -2 0123asd    ?2={0123asd}
+
+-3                             自定义字符集  -3 0123asd    ?3={0123asd}
+
+-i                             启用增量破解模式
+
+--increment-min                设置密码最小长度
+
+--increment-max                设置密码最大长度
+
+hashcat破解模式介绍
+
+0    straight                               字典破解
+
+1    combination                            将字典中密码进行组合
+
+3    brute-force                            使用指定掩码破解
+
+6    Hybrid Wordlist + Mask                 字典+掩码破解
+
+7    Hybrid Mask  + Wordlist                掩码+字典破解
+
+实例演示
+
+（1）掩码破解
+
+一、数字破解(8位:12345678)
+hashcat.exe -m 0 -a 3 25d55ad283aa400af464c76d713c07ad ?d?d?d?d?d?d?d?d
+
+二、小写字母(6位:abcdef)
+hashcat.exe -m 0 -a 3 e80b5017098950fc58aad83c8c14978e ?l?l?l?l?l?l
+
+三、字母+数字(8位:1a31fa1c)
+hashcat.exe -a 3 -m 0 --force b54e53e2f21b7260df895bc885ceaa3e --increment --increment-min 1 --increment-max 8 ?h?h?h?h?h?h?h?h
+
+（2）密码破解
+
+-a 0是指定字典破解模式，-o是输出结果到文件中
+
+hashcat.exe -m 0 -a 0 ./dict/hash.txt ./dict/passwd.txt -o result.txt
+
+（3）破解windows hash
+
+hashcat.exe -a 3 -m 1000 b4814903533072474831d4791b7d4a9c ?l?l?l?d?d?d?s
+
+### sqlmap
+
+1. get注入
+- sqlmap.py -u 'url' --dbs --batch
+2. post注入、
+- sqlmap.py -r 1.txt --dbs --batch
+3. cookie注入
+- sqlmap.py -u 'url' --cookie='cookie参数' --dbs --batch
+1. --dbs
+- 爆出数据库
+2. --batch
+- 不需要用户判断yes or no
+3. --charencode
+- url编码脚本
+4. --equaltolike
+- 将等号转换为like脚本
+5. --space2comment
+- 空格绕过脚本
+6. --level=3
+
+-
+7. --threads=10
+
+- 最大线程数
+8. -p "id"
+- 指定注入点
+9. --flush-session
+- 刷新session，用于对注入点的重新注入
+10. --wizard
+- 面向初学者的友好参数
+11. --hex
+- 使用十六进制解析数据
+12. --encoding=GBK
+- 设置编码
+13. --file-read="/etc/passwd"
+- 读取文件内容
+14. --file-write="/path/local/file" --file-dest="/path/remote/file"
+- 写入文件
+
+暴力破解
+当遇到access数据库或者mysql数据库版本较低（没有information_schema数据库）时，只能使用字典猜解数据库的表名和字段名等信息。
+
+- 表名猜解
+15. --common-tables
+- 字段名猜解
+16. --common-columns
+- 设置请求延时（默认5秒），当网络较差时使用
+17. --time-sec=6
+- 设置注入关键词，即当返回预期的页面时包含的某个字符串
+18. --string="success"
+- 也可以使用正则表达式
+19. --regexp="uid\d+"
+20. --prefix=PREFIX
+- 指定payload的前缀
+21. --suffix=SUFFIX
+- 指定payload的后缀
+22. --referer=REFERER
+- 指定referer
+23. --tamper=
+- 使用自定义脚本
+
+-o -risk=3 -level=5 --random-agent -skip-waf --batch --dbms=mysql --threads=10 --dbs
+
+1';rename tables `words` to `words1`;rename tables `1919810931114514` to `words`; alter table `words` change `flag` `id` varchar(100);#
+
+- -o
+
+打开所有优化开关
+
+- -threads=10
+
+多线程，默认1，最高10
+
+- -risk=3
+
+默认1，最高3，等级越高造成数据表刷新的可能性越大
+
+- -level=5
+
+默认1，最高5，等级越高检测注入点的地方越多
+
+- -mobile
+
+模拟手机浏览器访问
+
+- -skip-waf
+
+绕过waf
+
+- --random-agent
+
+随机agent
+
+- -v 3
+
+默认0,最高6，等级越高显示的payload或者返回内容越多
+
+--tamper=space2comment
+
+- 设置具体sql注入技术
+
+
+--technique B 布尔盲注
+
+
+--technique E 报错注入
+
+--technique U union查询注入
+
+--technique S 堆叠注入
+
+--technique T 时间盲注
+
+--technique Q 内联查询注入
+
+- --time-sec 3
+
+--time -sec 时间盲注时间为3
+
+- --dbms mysql
+
+指定数据库为mysql
+
+- sqlmap读取文件
+
+--file-read，
+
+- 写入文件
+
+--file-write=“” 读取本地文件（自己写好的shell），--file-dest=“f:\\”讲读取的文件写入到远程绝对路径（将你的shell文件传到指定的远程路径目录中）
+
+- --os-cmd=“ipconfig"
+
+执行cmd命令
+
+- sqlmap爬取URL
+
+--crawl=3，爬取深度为3，可以通过爬取整个网站可能存在注入的url，实现自动化注入，--crawl-exclude 排除指定的字符串
+
+- --eta
+
+显示完成注入输出的预计时间
+
+- --prefix=""
+
+设置前缀
+
+- --suffix=""
+
+设置后缀
+
+- --tamper=""
+
+### xray
+
+- 快速检测单个目标
+
+-
+
+- 使用基础爬虫爬取并对爬虫爬取的链接进行漏洞扫描：
+
+./xray.exe webscan --basic-crawler http://example.com --html-output xxx.html
+
+- 代理模式
+
+./xray.exe webscan --listen 127.0.0.1:7777 --html-output xray-testphp.html --poc pocs/* --plugin phantasm,baseline,brute-force,cmd-injection,crlf-injection,dirscan,fastjson,jsonp,path-traversal,redirect,shiro,sqldet,ssrf,struts,thinkphp,upload,xss,xxe
+
+
+### nmap
+
+-O 查看系统版本
+
+-sP ip/24 扫描网段存活主机
+
+-A 扫描主机所有信息
+
+-T5 (0-5)级别越高速度越快，也越容易被防火墙发现
+
+-n 加快扫描
+
+-p 80 扫描指定端口
+
+-sS/sT/sA/sW/sM:指定使用 TCP SYN/Connect()/ACK/Window/Maimon scans的方式来对目标主机进行扫描
+
+-sU: 指定使用UDP扫描方式确定目标主机的UDP端口状况
+
+-sP :  用ping扫描判断主机是否存活，只有主机存活，nmap才会继续扫描，一般最好不加，因为有的主机会禁止ping
+
+-PI :  设置这个选项，让nmap使用真正的ping(ICMP echo请求)来扫描目标主机是否正在运行。
+
+-iL 1.txt : 批量扫描1.txt中的目标地址
+
+-sL: List Scan 列表扫描，仅将指定的目标的IP列举出来，不进行主机发现
+
+-sY/sZ: 使用SCTP INIT/COOKIE-ECHO来扫描SCTP协议端口的开放的情况
+
+-sO: 使用IP protocol 扫描确定目标机支持的协议类型
+
+-PO : 使用IP协议包探测对方主机是否开启
+
+-PE/PP/PM : 使用ICMP echo、 ICMP timestamp、ICMP netmask 请求包发现主机
+
+-PS/PA/PU/PY : 使用TCP SYN/TCP ACK或SCTP INIT/ECHO方式进行发现
+
+-sN/sF/sX: 指定使用TCP Null, FIN, and Xmas scans秘密扫描方式来协助探测对方的TCP端口状态
+
+-e eth0：指定使用eth0网卡进行探测
+
+-f : --mtu <val>: 指定使用分片、指定数据包的 MTU.
+
+-b <FTP relay host>: 使用FTP bounce scan扫描方式
+
+-g： 指定发送的端口号
+
+-r: 不进行端口随机打乱的操作（如无该参数，nmap会将要扫描的端口以随机顺序方式扫描，以让nmap的扫描不易被对方防火墙检
+测到）
+
+-v 表示显示冗余信息，在扫描过程中显示扫描的细节，从而让用户了解当前的扫描状态
+
+-n : 表示不进行DNS解析；
+
+-D  <decoy1,decoy2[,ME],...>: 用一组 IP 地址掩盖真实地址，其中 ME 填入自己的 IP 地址
+
+-R ：表示总是进行DNS解析。
+
+-F : 快速模式，仅扫描TOP 100的端口
+
+-S <IP_Address>: 伪装成其他 IP 地址
+
+--ttl <val>: 设置 time-to-live 时间
+
+--badsum: 使用错误的 checksum 来发送数据包（正常情况下，该类数据包被抛弃，如果收到回复，说明回复来自防火墙或
+IDS/IPS）
+
+--dns-servers  : 指定DNS服务器
+
+--system-dns : 指定使用系统的DNS服务器
+
+--traceroute : 追踪每个路由节点
+
+--scanflags <flags>: 定制TCP包的flags
+
+--top-ports <number> :扫描开放概率最高的number个端口
+
+--port-ratio <ratio>: 扫描指定频率以上的端口。与上述--top-ports类似，这里以概率作为参数
+
+--version-trace: 显示出详细的版本侦测过程信息
+
+--osscan-limit: 限制Nmap只对确定的主机的进行OS探测（至少需确知该主机分别有一个open和closed的端口）
+
+--osscan-guess: 猜测对方的主机的系统类型。准确性会下降，但会尽可能多为用户提供潜在的操作系统
+
+--data-length <num>: 填充随机数据让数据包长度达到 Num
+
+--ip-options <options>: 使用指定的 IP 选项来发送数据包
+
+--spoof-mac <mac address/prefix/vendor name> : 伪装 MAC 地址
+
+--version-intensity <level>: 指定版本侦测强度（0-9），默认为7。数值越高，探测出的服务越准确，但是运行时间会比较
+长。
+
+--version-light: 指定使用轻量侦测方式 (intensity 2)
+
+--version-all: 尝试使用所有的probes进行侦测 (intensity 9)
+
+--version-trace: 显示出详细的版本侦测过程信息
+
+-PS选项来实行TCP SYN ping 可绕过防火墙
+
+-PA 这种类型的扫描将只会扫描ACK包，可绕过防火墙
+
+-PU 扫描只会对目标进行udp ping扫描。这种扫描的扫描会发送UDP包来获取一个响应，可绕过防火墙
+
+-PP 选项进行一个ICMP时间戳ping扫描可绕过防火墙
+
+-PE参数进行一个IEMP（Internet控制报文协议）在指定的系统上输出ping，可绕过防火墙
+
+-Pn 不采用ping方式进行扫描，可绕过防火墙
+
+-sA 用于发现防火墙规定，比如扫到的端口是过滤的，那么可以使用这个参数进行绕过
+
+如果是全新的防火墙，不可能绕过去，只能绕过一些老版本的防火墙，不能太小看防火墙的能力
+
+
+# php安全
+
+## ctf
+
+### web
+
+### misc
+
+### crypto
+
+### re
+
+### pwn
+
+## 靶场
+
+## wp
+
+# java安全
