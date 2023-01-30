@@ -42,28 +42,28 @@
 
 `工欲其善必先利器`
 
-| 工具                                                       | 链接                                                                                              | 教程                          | 描述   |
-| -------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | --------------------------- | ---- |
-| [github](https://github.com) | https://github.com                                                                              | [github](./tools/github.md) |      |
-| dirsearch                                                | https://github.com/maurosoria/dirsearch                                                         |                             | 目录扫描 |
-| xray                                                     | https://download.xray.cool/xray                                                                 |                             | 漏洞扫描 |
-| vulmap                                                   | https://github.com/zhzyker/vulmap                                                               |                             | 漏洞扫描 |
-| sqlmap(SQL注入)                                            | https://github.com/sqlmapproject/sqlmap                                                         |                             |      |
-| tplmap(SSTI注入)                                           | https://github.com/epinna/tplmap                                                                |                             |      |
-| CaptfEncoder(进制转换)                                       | https://github.com/guyoung/CaptfEncoder/releases                                                |                             |      |
-| BerylEnigma(进制转换)                                        | https://github.com/ffffffff0x/BerylEnigma/releases                                              |                             |      |
-| 大佬的笔记                                                    | https://github.com/ffffffff0x/1earn                                                             |                             |      |
-| f8x(linux环境搭建)                                           | wget -O f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x |                             |      |
-| 小皮面板                                                     | wget -O install.sh https://download.xp.cn/install.sh && sudo bash install.sh                    |                             |      |
-| 宝塔                                                       | wget -O install.sh http://download.bt.cn/install/install-ubuntu_6.0.sh && sudo bash install.sh  |                             |      |
-| 宝塔卸载                                                     | wget http://download.bt.cn/install/bt-uninstall.sh                                              |                             |      |
-| awd                                                      | https://github.com/fyfztms/awd_ctf_platform                                                     |                             |      |
-| 蚁剑加载器                                                    | https://github.com/AntSwordProject/AntSword-Loader                                              |                             |      |
-| 蚁剑                                                       | https://github.com/AntSwordProject/antSword                                                     |                             |      |
-|                                                          |                                                                                                 |                             |      |
-|                                                          |                                                                                                 |                             |      |
-|                                                          |                                                                                                 |                             |      |
-|                                                          |                                                                                                 |                             |      |
+| 工具           | 链接                                                                                              | 教程                          | 描述          |
+| ------------ | ----------------------------------------------------------------------------------------------- | --------------------------- | ----------- |
+| github       | https://github.com                                                                              | [github](./tools/github.md) |             |
+| dirsearch    | https://github.com/maurosoria/dirsearch                                                         |                             | 目录扫描        |
+| xray         | https://download.xray.cool/xray                                                                 |                             | 漏洞扫描        |
+| vulmap       | https://github.com/zhzyker/vulmap                                                               |                             | 漏洞扫描        |
+| sqlmap       | https://github.com/sqlmapproject/sqlmap                                                         |                             | SQL注入       |
+| tplmap       | https://github.com/epinna/tplmap                                                                |                             | SSTI注入(py2) |
+| CaptfEncoder | https://github.com/guyoung/CaptfEncoder/releases                                                |                             | 进制转换        |
+| BerylEnigma  | https://github.com/ffffffff0x/BerylEnigma/releases                                              |                             | 进制转换        |
+| 大佬的笔记        | https://github.com/ffffffff0x/1earn                                                             |                             | 笔记          |
+| f8x          | wget -O f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x |                             | linux环境部署   |
+| 小皮面板         | wget -O install.sh https://download.xp.cn/install.sh && sudo bash install.sh                    |                             | 运维面板        |
+| 宝塔           | wget -O install.sh http://download.bt.cn/install/install-ubuntu_6.0.sh && sudo bash install.sh  |                             | 运维面板        |
+| 宝塔卸载         | wget http://download.bt.cn/install/bt-uninstall.sh                                              |                             |             |
+| awd          | https://github.com/fyfztms/awd_ctf_platform                                                     |                             |             |
+| 蚁剑加载器        | https://github.com/AntSwordProject/AntSword-Loader                                              |                             |             |
+| 蚁剑           | https://github.com/AntSwordProject/antSword                                                     |                             | 一句话木马利用工具   |
+|              |                                                                                                 |                             |             |
+|              |                                                                                                 |                             |             |
+|              |                                                                                                 |                             |             |
+|              |                                                                                                 |                             |             |
 
 ## 靶场
 
