@@ -44,7 +44,7 @@ ADD myapp /var/www/html
 -|-
 查找mysql可用版本|docker search mysql
 拉取mysql镜像别名latest|docker pull mysql:latest
-新建并运行容器|docker run -itd -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 --name mysql-latest mysql
+新建并运行容器|docker run -d --name mysql-container -e MYSQL_ROOT_PASSWORD=woshinibaba  -p 3306:3306 mysql:latest
 运行已有容器|docker start id
 查看已安装镜像|docker images
 查看docker|docker ps -a
